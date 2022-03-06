@@ -2,7 +2,11 @@
 
 A password strength validator website that shows how secure is the typed password.
 
-You can also create a new strong password.
+![App](./public/app.png)
+
+You can also create a new strong password 👇
+
+![Generate Password](./public/app-generated-password.png)
 
 🙈 No data is collected!
 
