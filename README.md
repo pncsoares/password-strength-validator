@@ -2,6 +2,8 @@
 
 A password strength validator website that shows how secure is the typed password.
 
+You can also create a new strong password.
+
 🙈 No data is collected!
 
 # Setup

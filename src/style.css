@@ -7,7 +7,7 @@ h1 {
 }
 
 div, input {
-  font-size: 3rem;
+  font-size: 2rem;
 }
 
 *::before, *::after, * {
@@ -15,7 +15,7 @@ div, input {
 }
 
 body {
-  background-color: hsl(261, 88%, 17%);
+  background-color: hsl(261, 88%, 15%);
   color: hsl(261, 88%, 90%);
   text-align: center;
 }
@@ -60,4 +60,25 @@ body {
 .reasons > * {
   margin-top: 2rem;
   color: hsl(261, 88%, 80%);
+}
+
+button {
+    margin: 2rem;
+    width: 60%;
+    max-width: 800px;
+    font-size: 2rem;
+    background-color: darkslateblue;
+    color: white;
+    border: none;
+    border-radius: 5rem;
+    padding: 1rem;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+label {
+    color: chartreuse;
+    margin: 2rem;
+    font-size: 1.5rem;
+    font-weight: bold;
 }
