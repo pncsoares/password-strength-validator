@@ -115,30 +115,22 @@ function repeatCharactersWeakness(password) {
     }
 }
 
-function getAlphabet() {
-    return ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
-}
+const alphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+const numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+const specialCharacters = ['$', '!', '_', '-', '.', '#', '@', '%', '(', ')', '=', '*'];
 
-function getRandomAlphabet(index) {
-    const alphabet = getAlphabet();
+function getRandomAlphabet() {
+    const index = generateRandomNumber(0, 25);
     return alphabet[index];
 }
 
-function getNumbers() {
-    return [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-}
-
-function getRandomNumber(index) {
-    const numbers = getNumbers();
+function getRandomNumber() {
+    const index = generateRandomNumber(0, 9);
     return numbers[index];
 }
 
-function getSpecialCharacters() {
-    return ['$', '!', '_', '-', '.', '#', '@', '%', '(', ')', '=', '*'];
-}
-
-function getRandomSpecialCharacter(index) {
-    const specialCharacters = getSpecialCharacters();
+function getRandomSpecialCharacter() {
+    const index = generateRandomNumber(0, 11);
     return specialCharacters[index];
 }
 
@@ -149,31 +141,27 @@ function generateRandomNumber(min, max) {
 function generatePassword() {
     const passwordLabel = document.getElementById('generated-password');
     let generatedPassword = '';
-    let randomNumber, flag, lowerUpperCaseFlag;
+    let flag, lowerCaseFlag;
 
     for (let i = 0; i < 16; i++) {
         flag = generateRandomNumber(1, 3);
 
         if (flag == 1) {
-            lowerUpperCaseFlag = generateRandomNumber(0, 1);
-            randomNumber = generateRandomNumber(0, 25);
-            let letter = getRandomAlphabet(randomNumber);
+            generatedPassword += getRandomNumber();
+        }
+        else if (flag == 2) {
+            let letter = getRandomAlphabet();
 
-            if (lowerUpperCaseFlag == 0) {
+            lowerCaseFlag = generateRandomNumber(0, 1);
+
+            if (lowerCaseFlag == 1) {
                 letter = letter.toLowerCase();
             }
 
             generatedPassword += letter;
         }
-        else if (flag == 2) {
-            randomNumber = generateRandomNumber(0, 9);
-            const number = getRandomNumber(randomNumber);
-            generatedPassword += number;
-        }
         else if (flag == 3) {
-            randomNumber = generateRandomNumber(0, 11);
-            const specialCharacter = getRandomSpecialCharacter(randomNumber);
-            generatedPassword += specialCharacter;
+            generatedPassword += getRandomSpecialCharacter();
         }
     }
 
