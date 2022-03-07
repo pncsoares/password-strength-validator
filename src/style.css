@@ -20,7 +20,7 @@ body {
   text-align: center;
 }
 
-.strengt-meter {
+.strength-meter {
   position: relative;
   height: 5rem;
   width: 80%;
@@ -30,7 +30,7 @@ body {
   overflow: hidden;
 }
 
-.strengt-meter::before {
+.strength-meter::before {
   content: '';
   position: absolute;
   left: 0;

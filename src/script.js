@@ -1,6 +1,6 @@
 // Labels
 const shortPasswordLabel = 'Password too short';
-const mustHaveMoreCharactersLabel = 'The password could have more characteres';
+const mustHaveMoreCharactersLabel = 'The password could have more characters';
 const lowerCaseCharactersLabel = 'lowercase letters';
 const upperCaseCharactersLabel = 'uppercase letters';
 const numbersLabel = 'numbers';
@@ -9,7 +9,7 @@ const repeatedCharactersLabel = 'Repeated characters';
 const doesNotHaveLabel = 'Does not have';
 const mustHaveMoreLabel = 'Could have more';
 
-const strengthMeter = document.getElementById('strengt-meter');
+const strengthMeter = document.getElementById('strength-meter');
 const passwordInput = document.getElementById('password-input');
 const reasonsContainer = document.getElementById('reasons');
 
@@ -47,7 +47,7 @@ function calculatePasswordStrength(password) {
     weaknesses.push(upperCaseWeakness(password));
     weaknesses.push(numberWeakness(password));
     weaknesses.push(specialCharactersWeakness(password));
-    weaknesses.push(repeatCharacteresWeakness(password));
+    weaknesses.push(repeatCharactersWeakness(password));
 
     return weaknesses;
 }
@@ -104,7 +104,7 @@ function characterTypeWeakness(password, regexExpression, type) {
     }
 }
 
-function repeatCharacteresWeakness(password) {
+function repeatCharactersWeakness(password) {
     const matches = password.match(/(.)\1/g) || [];
 
     if (matches.length > 0) {
