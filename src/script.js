@@ -143,14 +143,24 @@ function generatePassword() {
     let generatedPassword = '';
     let flag, lowerCaseFlag;
 
-    for (let i = 0; i < 16; i++) {
+    while (generatedPassword.length < 16) {
         flag = generateRandomNumber(1, 3);
 
         if (flag == 1) {
-            generatedPassword += getRandomNumber();
+            const number = getRandomNumber();
+
+            if (generatedPassword.indexOf(number) > -1) {
+                continue;
+            }
+
+            generatedPassword += number;
         }
         else if (flag == 2) {
             let letter = getRandomAlphabet();
+
+            if (generatedPassword.indexOf(letter) > -1) {
+                continue;
+            }
 
             lowerCaseFlag = generateRandomNumber(0, 1);
 
@@ -161,7 +171,13 @@ function generatePassword() {
             generatedPassword += letter;
         }
         else if (flag == 3) {
-            generatedPassword += getRandomSpecialCharacter();
+            const specialCharacter = getRandomSpecialCharacter();
+
+            if (generatedPassword.indexOf(specialCharacter) > -1) {
+                continue;
+            }
+
+            generatedPassword += specialCharacter;
         }
     }
 
