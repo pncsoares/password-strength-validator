@@ -10,10 +10,6 @@ div, input {
   font-size: 2rem;
 }
 
-*::before, *::after, * {
-  box-sizing: border-box;
-}
-
 body {
   background-color: hsl(261, 88%, 15%);
   color: hsl(261, 88%, 90%);
@@ -78,9 +74,19 @@ button {
     font-weight: bold;
 }
 
-label {
+.generated-password-label {
     color: chartreuse;
-    margin: 2rem;
     font-size: 1.5rem;
     font-weight: bold;
+}
+
+.copy-message-label {
+    color: hsl(261, 88%, 80%);
+    animation: blinker 2s linear infinite;
+}
+
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
 }

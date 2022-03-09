@@ -147,7 +147,7 @@ function generateRandomNumber(min, max) {
 }
 
 function generatePassword() {
-    const passwordLabel = document.getElementById('generated-password');
+    const passwordLabel = getPasswordLabel();
     let generatedPassword = '';
     let randomNumber, flag, lowerUpperCaseFlag;
 
@@ -178,4 +178,39 @@ function generatePassword() {
     }
 
     passwordLabel.innerText = generatedPassword;
+
+    copyToClipboard();
+}
+
+function copyToClipboard() {
+    const passwordLabel = getPasswordLabel();
+    navigator.clipboard.writeText(passwordLabel.innerText);
+
+    showClipboardLabel();
+
+    const messageLabel = getCopyToClipboardLabel();
+    messageLabel.innerText = 'Password copied to clipboard';
+
+
+    setTimeout(() => {
+        hideClipboardLabel();
+    }, 5000);
+}
+
+function showClipboardLabel() {
+    const passwordLabel = getCopyToClipboardLabel();
+    passwordLabel.style.visibility = 'visible';
+}
+
+function hideClipboardLabel() {
+    const passwordLabel = getCopyToClipboardLabel();
+    passwordLabel.style.visibility = 'hidden';
+}
+
+function getPasswordLabel() {
+    return document.getElementById('generated-password-label');
+}
+
+function getCopyToClipboardLabel() {
+    return document.getElementById('copy-message-label');
 }
