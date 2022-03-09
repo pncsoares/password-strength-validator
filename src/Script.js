@@ -179,3 +179,7 @@ function generatePassword() {
 
     passwordLabel.innerText = generatedPassword;
 }
+
+function copyToClipboard() {
+    
+}
