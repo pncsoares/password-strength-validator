@@ -139,55 +139,55 @@ function generateRandomNumber(min, max) {
 }
 
 function generatePassword() {
-    const passwordLabel = getPasswordLabel();
-    let generatedPassword = '';
-    const firstSlice = 20;
-    const secondSlice = 80;
-    let flag, lowerCaseFlag;
+    const passwordLength = 16;
+    const passwordRules = [
+        { characters: 'abcdefghijklmnopqrstuvwxyz', min: 4 },
+        { characters: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', min: 4 },
+        { characters: '0123456789', min: 4 },
+        { characters: '!@#$&*?|%+-_./:;=()[]{}', min: 4 }
+    ];
 
-    while (generatedPassword.length < 20) {
-        flag = generateRandomNumber(1, 100);
+    let allCharacters = '';
+    let allMin = 0;
 
-        console.log(flag);
+    passwordRules.forEach((rule) => {
+        allCharacters += rule.characters;
+        allMin += rule.min;
+    });
 
-        if (flag >= 0 && flag < firstSlice) {
-            const number = getRandomNumber();
-
-            if (generatedPassword.indexOf(number) > -1) {
-                continue;
-            }
-
-            generatedPassword += number;
-        }
-        else if (flag > firstSlice && flag < secondSlice) {
-            let letter = getRandomAlphabet();
-
-            if (generatedPassword.indexOf(letter) > -1) {
-                continue;
-            }
-
-            lowerCaseFlag = generateRandomNumber(0, 100);
-
-            if (flag <= 50) {
-                letter = letter.toLowerCase();
-            }
-
-            generatedPassword += letter;
-        }
-        else if (flag > secondSlice && flag <= 100) {
-            const specialCharacter = getRandomSpecialCharacter();
-
-            if (generatedPassword.indexOf(specialCharacter) > -1) {
-                continue;
-            }
-
-            generatedPassword += specialCharacter;
-        }
+    if (passwordLength < allMin) {
+        passwordLength = allMin;
     }
 
-    passwordLabel.innerText = generatedPassword;
+    passwordRules.push({
+        characters: allCharacters,
+        min: passwordLength - allMin
+    });
+
+    let generatedPassword = '';
+
+    passwordRules.forEach((rule) => {
+        if (rule.min > 0) {
+            generatedPassword += shuffleString(rule.characters, rule.min);
+        }
+    });
+
+    const passwordLabel = getPasswordLabel();
+    passwordLabel.innerText = shuffleString(generatedPassword);
 
     copyToClipboard();
+}
+
+function shuffleString(str, maxlength) {
+    let shuffledString = str.split('').sort(() => {
+        return 0.5 - Math.random();
+    }).join('');
+
+    if (maxlength > 0) {
+        shuffledString = shuffledString.substr(0, maxlength);
+    }
+
+    return shuffledString;
 }
 
 function copyToClipboard() {
@@ -198,7 +198,6 @@ function copyToClipboard() {
 
     const messageLabel = getCopyToClipboardLabel();
     messageLabel.innerText = 'Password copied to clipboard';
-
 
     setTimeout(() => {
         hideClipboardLabel();
