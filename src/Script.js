@@ -141,12 +141,16 @@ function generateRandomNumber(min, max) {
 function generatePassword() {
     const passwordLabel = getPasswordLabel();
     let generatedPassword = '';
+    const firstSlice = 20;
+    const secondSlice = 80;
     let flag, lowerCaseFlag;
 
-    while (generatedPassword.length < 16) {
-        flag = generateRandomNumber(1, 3);
+    while (generatedPassword.length < 20) {
+        flag = generateRandomNumber(1, 100);
 
-        if (flag == 1) {
+        console.log(flag);
+
+        if (flag >= 0 && flag < firstSlice) {
             const number = getRandomNumber();
 
             if (generatedPassword.indexOf(number) > -1) {
@@ -155,22 +159,22 @@ function generatePassword() {
 
             generatedPassword += number;
         }
-        else if (flag == 2) {
+        else if (flag > firstSlice && flag < secondSlice) {
             let letter = getRandomAlphabet();
 
             if (generatedPassword.indexOf(letter) > -1) {
                 continue;
             }
 
-            lowerCaseFlag = generateRandomNumber(0, 1);
+            lowerCaseFlag = generateRandomNumber(0, 100);
 
-            if (lowerCaseFlag == 1) {
+            if (flag <= 50) {
                 letter = letter.toLowerCase();
             }
 
             generatedPassword += letter;
         }
-        else if (flag == 3) {
+        else if (flag > secondSlice && flag <= 100) {
             const specialCharacter = getRandomSpecialCharacter();
 
             if (generatedPassword.indexOf(specialCharacter) > -1) {
