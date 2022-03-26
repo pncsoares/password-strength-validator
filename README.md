@@ -1,4 +1,4 @@
-# PasswordStrengthValidator
+# Password Strength Validator
 
 A password strength validator website that shows how secure is the typed password.
 
