@@ -10,14 +10,14 @@ div, input {
   font-size: 2rem;
 }
 
-*::before, *::after, * {
-  box-sizing: border-box;
-}
-
 body {
   background-color: hsl(261, 88%, 15%);
   color: hsl(261, 88%, 90%);
   text-align: center;
+}
+
+hr {
+  margin: 2rem;
 }
 
 .strength-meter {
@@ -64,23 +64,85 @@ body {
   font-size: 1.5rem;
 }
 
-button {
-    margin: 2rem;
-    width: 60%;
-    max-width: 800px;
-    font-size: 2rem;
-    background-color: darkslateblue;
-    color: white;
-    border: none;
-    border-radius: 5rem;
-    padding: 1rem;
-    cursor: pointer;
-    font-weight: bold;
+.generate-password-button {
+  margin: 2rem;
+  width: 60%;
+  min-width: 300px;
+  max-width: 800px;
+  font-size: 2rem;
+  background-color: darkslateblue;
+  color: white;
+  border: none;
+  border-radius: 5rem;
+  padding: 1rem;
+  cursor: pointer;
+  font-weight: bold;
 }
 
-label {
-    color: chartreuse;
-    margin: 2rem;
-    font-size: 1.5rem;
-    font-weight: bold;
+.password-rules-container > * :not(p) {
+  font-size: 1rem;
+}
+
+p {
+  margin: 1rem;
+  font-size: 1.5rem;
+}
+
+.checkboxes-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-self: stretch;
+  align-content: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.checkbox-container {
+  margin: 5px;
+}
+
+.checkbox {
+  border: none;
+}
+
+.number-selector {
+  border: none;
+  background-color: transparent;
+  color: hsl(261, 88%, 70%);
+  font-weight: bold;
+}
+
+.reset-to-defaults-button {
+  margin: 1rem;
+  padding: 1rem;
+  width: 20%;
+  min-width: 150px;
+  max-width: 250px;
+  font-size: 1rem;
+  background-color: firebrick;
+  color: white;
+  border: none;
+  border-radius: 5rem;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.generated-password-label {
+  color: chartreuse;
+  font-size: 1.5rem;
+  font-weight: bold;
+  word-wrap: break-word;
+}
+
+.copy-message-label {
+  color: hsl(261, 88%, 80%);
+  animation: blinker 2s linear infinite;
+  font-size: 1rem;
+}
+
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
 }

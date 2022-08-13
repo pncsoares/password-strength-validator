@@ -115,30 +115,22 @@ function repeatCharactersWeakness(password) {
     }
 }
 
-function getAlphabet() {
-    return ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
-}
+const alphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+const numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+const specialCharacters = ['$', '!', '_', '-', '.', '#', '@', '%', '(', ')', '=', '*'];
 
-function getRandomAlphabet(index) {
-    const alphabet = getAlphabet();
+function getRandomAlphabet() {
+    const index = generateRandomNumber(0, 25);
     return alphabet[index];
 }
 
-function getNumbers() {
-    return [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-}
-
-function getRandomNumber(index) {
-    const numbers = getNumbers();
+function getRandomNumber() {
+    const index = generateRandomNumber(0, 9);
     return numbers[index];
 }
 
-function getSpecialCharacters() {
-    return ['$', '!', '_', '-', '.', '#', '@', '%', '(', ')', '=', '*'];
-}
-
-function getRandomSpecialCharacter(index) {
-    const specialCharacters = getSpecialCharacters();
+function getRandomSpecialCharacter() {
+    const index = generateRandomNumber(0, 11);
     return specialCharacters[index];
 }
 
@@ -147,35 +139,210 @@ function generateRandomNumber(min, max) {
 }
 
 function generatePassword() {
-    const passwordLabel = document.getElementById('generated-password');
-    let generatedPassword = '';
-    let randomNumber, flag, lowerUpperCaseFlag;
+    const passwordLenghtSelector = getPasswordLenghtSelector();
+    let passwordLength = Number(passwordLenghtSelector.value);
 
-    for (let i = 0; i < 16; i++) {
-        flag = generateRandomNumber(1, 3);
+    const lowerCaseLettersCheckbox = getLowerCaseLettersCheckbox();
+    const lowerCaseLettersQuantitySelector = getLowerCaseLettersQuantitySelector();
 
-        if (flag == 1) {
-            lowerUpperCaseFlag = generateRandomNumber(0, 1);
-            randomNumber = generateRandomNumber(0, 25);
-            let letter = getRandomAlphabet(randomNumber);
+    const upperCaseLettersCheckbox = getUpperCaseLettersCheckbox();
+    const upperCaseLettersQuantitySelector = getUpperCaseLettersQuantitySelector();
 
-            if (lowerUpperCaseFlag == 0) {
-                letter = letter.toLowerCase();
-            }
+    const numbersCheckbox = getNumbersCheckbox();
+    const numbersQuantitySelector = getNumbersQuantitySelector();
 
-            generatedPassword += letter;
-        }
-        else if (flag == 2) {
-            randomNumber = generateRandomNumber(0, 9);
-            const number = getRandomNumber(randomNumber);
-            generatedPassword += number;
-        }
-        else if (flag == 3) {
-            randomNumber = generateRandomNumber(0, 11);
-            const specialCharacter = getRandomSpecialCharacter(randomNumber);
-            generatedPassword += specialCharacter;
-        }
+    const specialCharactersCheckbox = getSpecialCharactersCheckbox();
+    const specialCharactersQuantitySelectorx = getSpecialCharactersQuantitySelector();
+
+    if (!lowerCaseLettersCheckbox.checked &&
+        !upperCaseLettersCheckbox.checked &&
+        !numbersCheckbox.checked &&
+        !specialCharactersCheckbox.checked) {
+        alert('You need to check at least one rule!');
+        return;
     }
 
-    passwordLabel.innerText = generatedPassword;
+    const passwordRules = [];
+
+    if (lowerCaseLettersCheckbox.checked) {
+        passwordRules.push({
+            characters: 'abcdefghijklmnopqrstuvwxyz',
+            min: Number(lowerCaseLettersQuantitySelector.value)
+        });
+    }
+
+    if (upperCaseLettersCheckbox.checked) {
+        passwordRules.push({
+            characters: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
+            min: Number(upperCaseLettersQuantitySelector.value)
+        });
+    }
+
+    if (numbersCheckbox.checked) {
+        passwordRules.push({
+            characters: '0123456789',
+            min: Number(numbersQuantitySelector.value)
+        });
+    }
+
+    if (specialCharactersCheckbox.checked) {
+        passwordRules.push({
+            characters: '!@#$&*?|%+-_./:;=()[]{}',
+            min: Number(specialCharactersQuantitySelectorx.value)
+        });
+    }
+
+    let allCharacters = '';
+    let allMin = 0;
+
+    passwordRules.forEach((rule) => {
+        allCharacters += rule.characters;
+        allMin += rule.min;
+    });
+
+    if (allMin != passwordLength) {
+        alert(`The rules you chose only have ${Number(allMin)} characters but you chose ${passwordLength} as password lenght...\n\nReview your configurations!`);
+        return;
+    }
+
+    passwordRules.push({
+        characters: allCharacters,
+        min: passwordLength - allMin
+    });
+
+    let generatedPassword = '';
+
+    passwordRules.forEach((rule) => {
+        if (rule.min > 0) {
+            generatedPassword += shuffleString(rule.characters, rule.min);
+        }
+    });
+
+    const passwordLabel = getPasswordLabel();
+    passwordLabel.innerText = shuffleString(generatedPassword);
+
+    copyToClipboard();
+}
+
+function shuffleString(str, maxlength) {
+    let shuffledString = str.split('').sort(() => {
+        return 0.5 - Math.random();
+    }).join('');
+
+    if (maxlength > 0) {
+        shuffledString = shuffledString.substr(0, maxlength);
+    }
+
+    return shuffledString;
+}
+
+function copyToClipboard() {
+    const passwordLabel = getPasswordLabel();
+    navigator.clipboard.writeText(passwordLabel.innerText);
+
+    showClipboardLabel();
+
+    const messageLabel = getCopyToClipboardLabel();
+    messageLabel.innerText = 'Password copied to clipboard';
+
+    setTimeout(() => {
+        hideClipboardLabel();
+    }, 5000);
+}
+
+function showClipboardLabel() {
+    const passwordLabel = getCopyToClipboardLabel();
+    passwordLabel.style.visibility = 'visible';
+}
+
+function hideClipboardLabel() {
+    const passwordLabel = getCopyToClipboardLabel();
+    passwordLabel.style.visibility = 'hidden';
+}
+
+function handleCheck(element, relatedElementId) {
+    var visible = 'none';
+
+    if (element.checked) {
+        visible = 'inline-block';
+    }
+
+    document.getElementById(relatedElementId).style.display = visible;
+}
+
+function resetToDefaults() {
+    const passwordLenghtSelector = getPasswordLenghtSelector();
+    passwordLenghtSelector.value = 16;
+
+    const lowerCaseLettersCheckbox = getLowerCaseLettersCheckbox();
+    lowerCaseLettersCheckbox.checked = true;
+
+    const lowerCaseLettersQuantitySelector = getLowerCaseLettersQuantitySelector();
+    lowerCaseLettersQuantitySelector.value = 4;
+    lowerCaseLettersQuantitySelector.style.display = 'inline-block';
+
+    const upperCaseLettersCheckbox = getUpperCaseLettersCheckbox();
+    upperCaseLettersCheckbox.checked = true;
+
+    const upperCaseLettersQuantitySelector = getUpperCaseLettersQuantitySelector();
+    upperCaseLettersQuantitySelector.value = 4;
+    upperCaseLettersQuantitySelector.style.display = 'inline-block';
+
+    const numbersCheckbox = getNumbersCheckbox();
+    numbersCheckbox.checked = true;
+
+    const numbersQuantitySelector = getNumbersQuantitySelector();
+    numbersQuantitySelector.value = 4;
+    numbersQuantitySelector.style.display = 'inline-block';
+
+    const specialCharactersCheckbox = getSpecialCharactersCheckbox();
+    specialCharactersCheckbox.checked = true;
+
+    const specialCharactersQuantitySelectorx = getSpecialCharactersQuantitySelector();
+    specialCharactersQuantitySelectorx.value = 4;
+    specialCharactersQuantitySelectorx.style.display = 'inline-block';
+}
+
+function getPasswordLenghtSelector() {
+    return document.getElementById('password-lenght');
+}
+
+function getLowerCaseLettersCheckbox() {
+    return document.getElementById('lower-case-letters');
+}
+
+function getLowerCaseLettersQuantitySelector() {
+    return document.getElementById('lower-case-letters-quantity');
+}
+
+function getUpperCaseLettersCheckbox() {
+    return document.getElementById('upper-case-letters');
+}
+
+function getUpperCaseLettersQuantitySelector() {
+    return document.getElementById('upper-case-letters-quantity');
+}
+
+function getNumbersCheckbox() {
+    return document.getElementById('numbers');
+}
+
+function getNumbersQuantitySelector() {
+    return document.getElementById('numbers-quantity');
+}
+
+function getSpecialCharactersCheckbox() {
+    return document.getElementById('special-characters');
+}
+
+function getSpecialCharactersQuantitySelector() {
+    return document.getElementById('special-characters-quantity');
+}
+
+function getPasswordLabel() {
+    return document.getElementById('generated-password-label');
+}
+
+function getCopyToClipboardLabel() {
+    return document.getElementById('copy-message-label');
 }

@@ -18,10 +18,56 @@
     <input class="password-input" id="password-input" placeholder="password" type="text" autofocus
         aria-label="password">
     <div id="reasons" class="reasons"></div>
-    <br>
-    <button class="button" onclick="generatePassword()">Create strong password 💪</button>
-    <br>
-    <label id="generated-password"></label>
+    <hr>
+    <div class="generate-password-container">
+        <div class="generate-password-button-container">
+            <button class="generate-password-button" onclick="generatePassword()">Create strong password 💪</button>
+            <br>
+            <label id="generated-password-label" class="generated-password-label"></label>
+            <br>
+            <label id="copy-message-label" class="copy-message-label"></label>
+        </div>
+        <br>
+        <div class="password-rules-container">
+            <p>Choose your password rules 👇</p>
+            <div>
+                <label for="password-lenght">Password Lenght</label>
+                <input type="number" class="number-selector" id="password-lenght" name="password-lenght" min="8"
+                    max="32" value="16">
+            </div>
+            <div class="checkboxes-container">
+                <div class="checkbox-container">
+                    <input type="checkbox" class="checkbox" id="lower-case-letters" name="lower-case-letters" checked
+                        onclick="handleCheck(this, 'lower-case-letters-quantity')">
+                    <label for="lower-case-letters">Lower Case Letters</label>
+                    <input type="number" class="number-selector" id="lower-case-letters-quantity"
+                        name="lower-case-letters-quantity" min="2" max="32" value="4">
+                </div>
+                <div class="checkbox-container">
+                    <input type="checkbox" class="checkbox" id="upper-case-letters" name="upper-case-letters" checked
+                        onclick="handleCheck(this, 'upper-case-letters-quantity')">
+                    <label for="upper-case-letters">Upper Case Letters</label>
+                    <input type="number" class="number-selector" id="upper-case-letters-quantity"
+                        name="upper-case-letters-quantity" min="2" max="32" value="4">
+                </div>
+                <div class="checkbox-container">
+                    <input type="checkbox" class="checkbox" id="numbers" name="numbers" checked
+                        onclick="handleCheck(this, 'numbers-quantity')">
+                    <label for="numbers">Numbers</label>
+                    <input type="number" class="number-selector" id="numbers-quantity" name="numbers-quantity" min="2"
+                        max="32" value="4">
+                </div>
+                <div class="checkbox-container">
+                    <input type="checkbox" class="checkbox" id="special-characters" name="special-characters" checked
+                        onclick="handleCheck(this, 'special-characters-quantity')">
+                    <label for="special-characters">Special Characters</label>
+                    <input type="number" class="number-selector" id="special-characters-quantity"
+                        name="special-characters-quantity" min="2" max="32" value="4">
+                </div>
+            </div>
+            <button class="reset-to-defaults-button" onclick="resetToDefaults()">Reset to defaults</button>
+        </div>
+    </div>
 </body>
 
 </html>
